@@ -1,0 +1,103 @@
+#pendo-g-c71efe42-4cce-4d9f-be79-5111c0ef6bbb {
+  /*
+ * Pendo CSS — JBS Guide for Authors Writing Coach gateway ribbon.
+ * Paste this entire block into the guide's CSS block.
+ */
+}
+#pendo-g-c71efe42-4cce-4d9f-be79-5111c0ef6bbb #pendo-jbs-writing-coach-authorinfo-ribbon,
+#pendo-g-c71efe42-4cce-4d9f-be79-5111c0ef6bbb #pendo-jbs-writing-coach-authorinfo-ribbon * {
+  box-sizing: border-box;
+}
+#pendo-g-c71efe42-4cce-4d9f-be79-5111c0ef6bbb #pendo-jbs-writing-coach-authorinfo-ribbon {
+  --pendo-jbs-writing-coach-link: #006fae;
+  --pendo-jbs-writing-coach-ink: #1f2933;
+  --pendo-jbs-writing-coach-tint: #eef8ff;
+  --pendo-jbs-writing-coach-border: #c7e4f5;
+  width: 100%;
+  margin: 0;
+  padding: 12px 20px;
+  border-top: 1px solid var(--pendo-jbs-writing-coach-border);
+  border-bottom: 1px solid var(--pendo-jbs-writing-coach-border);
+  background: var(--pendo-jbs-writing-coach-tint);
+  color: var(--pendo-jbs-writing-coach-ink);
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.5;
+}
+#pendo-g-c71efe42-4cce-4d9f-be79-5111c0ef6bbb #pendo-jbs-writing-coach-authorinfo-ribbon .pendo-jbs-writing-coach-authorinfo-ribbon__content {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px 12px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+#pendo-g-c71efe42-4cce-4d9f-be79-5111c0ef6bbb #pendo-jbs-writing-coach-authorinfo-ribbon .pendo-jbs-writing-coach-authorinfo-ribbon__badge {
+  flex: 0 0 auto;
+  padding: 1px 6px 2px;
+  border: 1px solid var(--pendo-jbs-writing-coach-link);
+  border-radius: 3px;
+  color: var(--pendo-jbs-writing-coach-link);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+#pendo-g-c71efe42-4cce-4d9f-be79-5111c0ef6bbb #pendo-jbs-writing-coach-authorinfo-ribbon .pendo-jbs-writing-coach-authorinfo-ribbon__message {
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  gap: 0 12px;
+  min-width: 0;
+  margin: 0;
+}
+#pendo-g-c71efe42-4cce-4d9f-be79-5111c0ef6bbb #pendo-jbs-writing-coach-authorinfo-ribbon .pendo-jbs-writing-coach-authorinfo-ribbon__message strong {
+  font-weight: 700;
+}
+#pendo-g-c71efe42-4cce-4d9f-be79-5111c0ef6bbb #pendo-jbs-writing-coach-authorinfo-ribbon .pendo-jbs-writing-coach-authorinfo-ribbon__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+  color: var(--pendo-jbs-writing-coach-link);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+#pendo-g-c71efe42-4cce-4d9f-be79-5111c0ef6bbb #pendo-jbs-writing-coach-authorinfo-ribbon .pendo-jbs-writing-coach-authorinfo-ribbon__cta > span:first-child {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+#pendo-g-c71efe42-4cce-4d9f-be79-5111c0ef6bbb #pendo-jbs-writing-coach-authorinfo-ribbon .pendo-jbs-writing-coach-authorinfo-ribbon__cta:hover {
+  color: #004f80;
+}
+#pendo-g-c71efe42-4cce-4d9f-be79-5111c0ef6bbb #pendo-jbs-writing-coach-authorinfo-ribbon .pendo-jbs-writing-coach-authorinfo-ribbon__cta:hover > span:first-child {
+  text-decoration-thickness: 2px;
+}
+#pendo-g-c71efe42-4cce-4d9f-be79-5111c0ef6bbb #pendo-jbs-writing-coach-authorinfo-ribbon .pendo-jbs-writing-coach-authorinfo-ribbon__cta:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+#pendo-g-c71efe42-4cce-4d9f-be79-5111c0ef6bbb #pendo-jbs-writing-coach-authorinfo-ribbon .pendo-jbs-writing-coach-authorinfo-ribbon__external {
+  display: inline-block;
+  font-size: 1em;
+  line-height: 1;
+  text-decoration: none;
+}
+@media (max-width: 767px) {
+  #pendo-g-c71efe42-4cce-4d9f-be79-5111c0ef6bbb #pendo-jbs-writing-coach-authorinfo-ribbon {
+    padding: 12px 16px;
+  }
+  #pendo-g-c71efe42-4cce-4d9f-be79-5111c0ef6bbb #pendo-jbs-writing-coach-authorinfo-ribbon .pendo-jbs-writing-coach-authorinfo-ribbon__content {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  #pendo-g-c71efe42-4cce-4d9f-be79-5111c0ef6bbb #pendo-jbs-writing-coach-authorinfo-ribbon .pendo-jbs-writing-coach-authorinfo-ribbon__message {
+    flex: 1 1 calc(100% - 62px);
+  }
+  #pendo-g-c71efe42-4cce-4d9f-be79-5111c0ef6bbb #pendo-jbs-writing-coach-authorinfo-ribbon .pendo-jbs-writing-coach-authorinfo-ribbon__cta {
+    flex-basis: 100%;
+    margin-left: 0;
+  }
+}

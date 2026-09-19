@@ -1,0 +1,14 @@
+Missing pages to download/save from the live IJID site:
+
+abstracting.html
+aims.html
+authorinfo.html
+claim/activate.html
+contact-us.html
+edboard.html
+home.html
+pb-assets/adobe/conversionDriverMap-1747666905183.js.html
+search/advanced.html
+supplements.html
+
+Note: the live site is currently blocking automated fetches with Cloudflare 403 challenge, so these were identified from the homepage HTML and need to be downloaded manually in a browser after solving the challenge.
