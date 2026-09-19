@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IJID Admin Panel</title>
+    <style>
+      :root {
+        --bg: #f4f6fb;
+        --card: #fff;
+        --primary: #1a5276;
+        --primary-dark: #143d5d;
+        --border: #dfe7f3;
+        --text: #1d2a39;
+        --muted: #5e6b7c;
+        --success: #166534;
+        --warning: #b45309;
+        --error: #b42318;
+        --shadow: 0 18px 40px rgba(20, 61, 93, 0.08);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      .container {
+        max-width: 980px;
+        margin: 40px auto;
+        padding: 24px;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      .topbar h1 {
+        margin: 0;
+        font-size: clamp(1.8rem, 3vw, 2.5rem);
+      }
+
+      .button {
+        cursor: pointer;
+        border: none;
+        border-radius: 12px;
+        padding: 12px 18px;
+        font-weight: 600;
+        transition: 0.2s ease;
+      }
+
+      .button.primary {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .button.primary:hover { background: var(--primary-dark); }
+
+      .button.secondary {
+        background: #edf3f9;
+        color: var(--text);
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+        padding: 24px;
+        margin-bottom: 24px;
+      }
+
+      .card h2 {
+        margin-top: 0;
+        margin-bottom: 18px;
+      }
+
+      form {
+        display: grid;
+        gap: 16px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+      }
+
+      label {
+        display: grid;
+        gap: 8px;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: #fff;
+        padding: 12px 14px;
+        font: inherit;
+        color: var(--text);
+      }
+
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .status {
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-weight: 600;
+        margin-bottom: 18px;
+      }
+
+      .status-info { background: #eef6ff; color: var(--primary-dark); }
+      .status-success { background: #eafaf0; color: var(--success); }
+      .status-error { background: #feecec; color: var(--error); }
+
+      .hidden { display: none !important; }
+
+      .meta-text {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 640px) {
+        .topbar {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="topbar">
+        <h1>IJID Admin Panel</h1>
+        <button type="button" id="logout-btn" class="button secondary hidden">Sign out</button>
+      </div>
+
+      <div id="auth-status" class="status status-info">Signing in required.</div>
+
+      <section id="session-panel" class="card hidden">
+        <h2>Article upload</h2>
+        <form id="article-form">
+          <div class="grid">
+            <label>
+              Article title
+              <input id="article-title" name="title" type="text" required />
+            </label>
+            <label>
+              Authors
+              <input id="article-authors" name="authors" type="text" required />
+            </label>
+            <label>
+              Article type
+              <input id="article-type" name="article_type" type="text" placeholder="Original Report" />
+            </label>
+            <label>
+              Section
+              <select id="article-section" name="section" required>
+                <option value="inpress">Articles in Press</option>
+                <option value="inprogress">In Progress</option>
+                <option value="current">Current Issue</option>
+                <option value="archive">Archive</option>
+              </select>
+            </label>
+            <label>
+              Order number
+              <input id="order-number" name="order_number" type="number" min="0" value="0" />
+            </label>
+            <label>
+              Page number
+              <input id="page-number" name="page_number" type="text" placeholder="12" />
+            </label>
+            <label>
+              Volume
+              <input id="volume" name="volume" type="text" />
+            </label>
+            <label>
+              Issue
+              <input id="issue" name="issue" type="text" />
+            </label>
+            <label>
+              DOI
+              <input id="doi" name="doi" type="text" />
+            </label>
+            <label>
+              Published date
+              <input id="published-at" name="published_at" type="date" />
+            </label>
+            <label style="grid-column: 1 / -1;">
+              PDF file
+              <input id="pdf-file" name="pdf_file" type="file" accept="application/pdf" required />
+            </label>
+            <label style="grid-column: 1 / -1;">
+              Abstract
+              <textarea id="article-abstract" name="abstract" placeholder="Paste article abstract here..."></textarea>
+            </label>
+          </div>
+
+          <button type="submit" class="button primary">Save article</button>
+        </form>
+      </section>
+
+      <section id="login-panel" class="card">
+        <h2>Sign in</h2>
+        <form id="admin-login-form">
+          <label>
+            Email
+            <input id="login-email" type="email" placeholder="admin@example.com" required />
+          </label>
+          <label>
+            Password
+            <input id="login-password" type="password" placeholder="Password" required />
+          </label>
+          <button type="submit" class="button primary">Sign in</button>
+        </form>
+      </section>
+
+      <div id="form-status" class="status status-info hidden">Status will appear here.</div>
+      <p class="meta-text">Replace the Supabase URL and anon key in supabase-config.js before using this page.</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./supabase-config.js"></script>
+    <script src="./admin-articles.js"></script>
+  </body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IJID Articles</title>
+    <style>
+      :root {
+        --bg: #f3f6fb;
+        --card: #ffffff;
+        --primary: #1b5f8a;
+        --text: #1e293b;
+        --muted: #586879;
+        --border: #dfe7f3;
+        --shadow: 0 16px 30px rgba(27, 95, 138, 0.08);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 36px auto;
+        padding: 24px;
+      }
+
+      .page-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+
+      .page-header h1 {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 2.7rem);
+      }
+
+      .filter-wrap {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      select {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: #fff;
+        padding: 10px 12px;
+        font: inherit;
+      }
+
+      .article-section {
+        margin-bottom: 28px;
+      }
+
+      .article-section h2 {
+        margin-bottom: 18px;
+        font-size: 1.6rem;
+        border-bottom: 2px solid var(--border);
+        padding-bottom: 10px;
+      }
+
+      .article-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+      }
+
+      .article-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 18px;
+        box-shadow: var(--shadow);
+      }
+
+      .article-meta-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .article-type,
+      .article-section-tag {
+        display: inline-block;
+        background: #edf5fb;
+        color: var(--primary);
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+
+      .article-card h3 {
+        margin: 0 0 10px;
+        font-size: 1.3rem;
+        line-height: 1.35;
+      }
+
+      .article-authors,
+      .article-date,
+      .article-summary,
+      .empty-state {
+        color: var(--muted);
+      }
+
+      .article-authors {
+        font-weight: 600;
+        margin: 0 0 8px;
+      }
+
+      .article-date {
+        font-size: 0.88rem;
+        margin: 0 0 12px;
+      }
+
+      .article-summary {
+        margin: 0 0 16px;
+        line-height: 1.6;
+      }
+
+      .article-meta-boxes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+
+      .article-meta-boxes span {
+        background: #f8fafc;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 7px 9px;
+        font-size: 0.8rem;
+      }
+
+      .article-actions {
+        display: flex;
+        justify-content: flex-start;
+      }
+
+      .article-link {
+        display: inline-block;
+        text-decoration: none;
+        background: var(--primary);
+        color: #fff;
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-weight: 700;
+      }
+
+      .article-link.disabled {
+        background: #bfc8d2;
+        pointer-events: none;
+      }
+
+      .empty-state {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+      }
+
+      @media (max-width: 640px) {
+        .page-header {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-header">
+        <h1>IJID Articles</h1>
+        <div class="filter-wrap">
+          <label for="article-filter">Section</label>
+          <select id="article-filter">
+            <option value="">All sections</option>
+            <option value="inpress">Articles in Press</option>
+            <option value="inprogress">In Progress</option>
+            <option value="current">Current Issue</option>
+            <option value="archive">Archive</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="article-status" class="empty-state">Loading articles...</div>
+      <div id="article-list" class="article-list"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./supabase-config.js"></script>
+    <script src="./article-list.js"></script>
+  </body>
+</html>
