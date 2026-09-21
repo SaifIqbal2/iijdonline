@@ -2,7 +2,7 @@
   const supabase = window.supabaseClient;
   const parts = window.location.pathname.split('/').filter(Boolean);
   const articlePii = new URLSearchParams(window.location.search).get('pii') || decodeURIComponent(parts[1] || '');
-  const root = document.getElementById('article-preview') || document.querySelector(`article[data-pii="${articlePii}"]`);
+  const root = document.getElementById('article-preview') || document.querySelector(`article[data-pii="${articlePii}"]`) || document.querySelector('article[typeof="ScholarlyArticle"]');
   if (!root || !supabase || !articlePii) return;
   const issueStyle = document.createElement('style');
   issueStyle.textContent = '.supabase-issue-list{max-width:900px;margin:28px auto;padding:24px;border-top:1px solid #dce5ef;font-family:Arial,sans-serif}.supabase-issue-list h2{color:#164f73}.issue-list-item{padding:14px 0;border-bottom:1px solid #dce5ef}.issue-list-item h3{margin:0 0 6px}.issue-list-item a{color:#12618d}.issue-list-item p,.issue-list-item span{display:block;margin:4px 0;color:#526477}';
