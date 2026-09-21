@@ -4,6 +4,9 @@
   const articlePii = decodeURIComponent(parts[1] || '');
   const root = document.getElementById('article-preview') || document.querySelector(`article[data-pii="${articlePii}"]`);
   if (!root || !supabase || !articlePii) return;
+  const issueStyle = document.createElement('style');
+  issueStyle.textContent = '.supabase-issue-list{max-width:900px;margin:28px auto;padding:24px;border-top:1px solid #dce5ef;font-family:Arial,sans-serif}.supabase-issue-list h2{color:#164f73}.issue-list-item{padding:14px 0;border-bottom:1px solid #dce5ef}.issue-list-item h3{margin:0 0 6px}.issue-list-item a{color:#12618d}.issue-list-item p,.issue-list-item span{display:block;margin:4px 0;color:#526477}';
+  document.head.appendChild(issueStyle);
 
   supabase.from('articles').select('*').eq('article_pii', articlePii).maybeSingle().then(async ({ data, error }) => {
     if (!data && !error && articlePii === 'S1201-9712(26)00706-X') {
@@ -33,5 +36,27 @@
     if (highlights.length) highlights.forEach((value) => { const item = document.createElement('li'); item.textContent = value; root.querySelector('.preview-highlights').appendChild(item); });
     if (keywords.length) root.querySelector('.preview-keywords').textContent = keywords.join(', ');
     document.title = data.title;
+
+    const issueList = document.createElement('section');
+    issueList.className = 'supabase-issue-list';
+    issueList.innerHTML = '<h2>All articles in this issue</h2><div class="issue-list-items">Loading...</div>';
+    root.parentElement.appendChild(issueList);
+    const issueItems = issueList.querySelector('.issue-list-items');
+    const issueResult = await supabase.from('articles').select('*').eq('issue', data.issue).order('order_number', { ascending: true });
+    if (issueResult.error) {
+      issueItems.textContent = issueResult.error.message;
+      return;
+    }
+    issueItems.textContent = '';
+    for (const issueArticle of issueResult.data || []) {
+      const item = document.createElement('article');
+      item.className = 'issue-list-item';
+      const targetPii = issueArticle.article_pii || 'S1201-9712(26)00706-X';
+      item.innerHTML = `<h3><a href="/article/${encodeURIComponent(targetPii)}/fulltext.html"></a></h3><p></p><span></span>`;
+      item.querySelector('h3 a').textContent = issueArticle.title;
+      item.querySelector('p').textContent = issueArticle.authors || 'Authors not provided';
+      item.querySelector('span').textContent = issueArticle.published_at ? `Published online: ${issueArticle.published_at}` : 'Date not set';
+      issueItems.appendChild(item);
+    }
   });
 })();
