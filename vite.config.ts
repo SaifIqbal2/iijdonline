@@ -33,7 +33,11 @@ export default defineConfig({
       input: {
         home: 'index.html',
         admin: 'admin.html',
-        articles: 'articles.html'
+        articles: 'articles.html',
+        inpress: 'inpress.html',
+        inprogress: 'inprogress.html',
+        current: 'current.html',
+        issues: 'issues.html'
       }
     }
   },
