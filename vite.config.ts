@@ -44,7 +44,8 @@ export default defineConfig({
         current: 'current.html',
         issues: 'issues.html',
         targetIssue: 'issue/S1201-9712(26)X2009-4.html',
-        targetArticle: 'article/S1201-9712(26)00706-X/fulltext.html'
+        targetArticle: 'article/S1201-9712(26)00706-X/fulltext.html',
+        articlePreview: 'article-preview.html'
       }
     }
   },

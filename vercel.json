@@ -1,8 +1,12 @@
 {
   "rewrites": [
     {
+      "source": "/article/:pii/fulltext.html",
+      "destination": "/article-preview.html"
+    },
+    {
       "source": "/article/:pii/fulltext",
-      "destination": "/article/:pii/fulltext.html"
+      "destination": "/article-preview.html"
     }
   ]
 }

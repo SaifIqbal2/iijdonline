@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IJID Article Preview</title>
+    <style>
+      body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #f4f6fb; color: #1d2a39; }
+      .preview-shell { max-width: 920px; margin: 48px auto; padding: 28px; background: #fff; border: 1px solid #dce5ef; }
+      .preview-meta { color: #526477; font-size: .95rem; margin-bottom: 12px; }
+      h1 { color: #164f73; font-size: 2rem; line-height: 1.2; margin: 12px 0; }
+      h2 { color: #164f73; margin: 28px 0 10px; }
+      .preview-authors { font-weight: 600; margin: 12px 0 24px; }
+      .preview-abstract { line-height: 1.7; white-space: pre-line; }
+      .preview-keywords { color: #526477; }
+      .preview-pdf { display: inline-block; margin-top: 22px; padding: 11px 16px; background: #17618b; color: #fff; text-decoration: none; font-weight: 700; }
+      ul { line-height: 1.7; }
+      .error { color: #b42318; font-weight: 700; }
+    </style>
+  </head>
+  <body>
+    <main id="article-preview" class="preview-shell">Loading article...</main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./supabase-config.js"></script>
+    <script src="./article-preview.js"></script>
+  </body>
+</html>
