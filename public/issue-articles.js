@@ -23,7 +23,7 @@
   function renderArticle(article, pdfUrl) {
     const item = document.createElement('li');
     item.className = 'articleCitation';
-    item.innerHTML = `<div class="toc__item clearfix"><div class="toc__item__prefix"><div class="input-group"><label class="checkbox--primary"><input type="checkbox" disabled><span class="label-txt"></span></label></div></div><div class="toc__item__body"><div class="row"><div class="toc__item__detials col-md-9 col-lg-10"><h3 class="toc__item__title"></h3><div class="toc__item__authors"></div><div class="toc__item__details"><div class="toc__item__pages"></div><div class="toc__articleNumber"></div></div><div class="toc__item__links"><ul class="rlist--inline download-links"><li><a class="pdfLink" target="_blank" rel="noreferrer">PDF</a></li></ul></div></div></div></div></div>`;
+    item.innerHTML = `<div class="toc__item clearfix"><div class="toc__item__prefix"><div class="input-group"><label class="checkbox--primary"><input type="checkbox" disabled><span class="label-txt"></span></label></div></div><div class="toc__item__body"><div class="row"><div class="toc__item__cover col-md-3 col-lg-2 hidden-xs hidden-sm hidden-md"><img src="./S1201-9712(26)X2009-4_files/gr1.sml" loading="lazy" alt=""></div><div class="toc__item__detials col-md-9 col-lg-10"><h3 class="toc__item__title"></h3><div class="toc__item__authors"></div><div class="toc__item__details"><div class="toc__item__date"></div><div class="toc__item__pages"></div><div class="toc__articleNumber"></div></div><div class="toc__item__links"><ul class="rlist--inline download-links"><li><a class="pdfLink" target="_blank" rel="noreferrer">PDF</a></li></ul></div></div></div></div></div>`;
     const titleLink = item.querySelector('.toc__item__title');
     titleLink.textContent = article.title;
     titleLink.innerHTML = '';
@@ -32,6 +32,7 @@
     titleAnchor.textContent = article.title;
     titleLink.appendChild(titleAnchor);
     item.querySelector('.toc__item__authors').textContent = article.authors || 'Authors not provided';
+    item.querySelector('.toc__item__date').textContent = article.published_at ? `Published online: ${new Date(article.published_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}` : '';
     item.querySelector('.toc__item__pages').textContent = `Page ${article.page_number || 'N/A'} | Order ${article.order_number ?? 0}`;
     item.querySelector('.toc__articleNumber').textContent = article.article_type || 'Article';
     const link = item.querySelector('.pdfLink');
