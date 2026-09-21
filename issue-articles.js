@@ -67,7 +67,10 @@
     }
 
     results.textContent = '';
-    const articles = (data || []).sort((a, b) => pageNumber(a.page_number) - pageNumber(b.page_number));
+    const articles = (data || []).sort((a, b) => {
+      const orderDiff = Number(a.order_number || 0) - Number(b.order_number || 0);
+      return orderDiff || pageNumber(a.page_number) - pageNumber(b.page_number);
+    });
     if (!articles.length) {
       results.textContent = 'No Supabase articles have been uploaded for this issue yet.';
       return;
