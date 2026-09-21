@@ -1,4 +1,5 @@
 (() => {
+  function init() {
   const issueId = 'S1201-9712(26)X2009-4';
   const supabase = window.supabaseClient;
   const panel = document.createElement('section');
@@ -87,4 +88,7 @@
   }
 
   loadIssueArticles();
+  }
+
+  window.addEventListener('load', init);
 })();
