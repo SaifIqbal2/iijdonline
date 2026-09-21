@@ -135,6 +135,33 @@
         font-size: 0.95rem;
       }
 
+      .article-admin-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .article-admin-item {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+        background: #fbfdff;
+      }
+
+      .article-admin-item h3 {
+        margin: 0 0 8px;
+        color: var(--primary-dark);
+      }
+
+      .article-admin-meta {
+        color: var(--muted);
+        margin: 4px 0 12px;
+      }
+
+      .article-admin-actions {
+        display: flex;
+        gap: 8px;
+      }
+
       @media (max-width: 640px) {
         .topbar {
           display: block;
@@ -208,7 +235,7 @@
             </label>
             <label style="grid-column: 1 / -1;">
               PDF file
-              <input id="pdf-file" name="pdf_file" type="file" accept="application/pdf" required />
+              <input id="pdf-file" name="pdf_file" type="file" accept="application/pdf" />
             </label>
             <label style="grid-column: 1 / -1;">
               Abstract
@@ -224,8 +251,18 @@
             </label>
           </div>
 
-          <button type="submit" class="button primary">Save article</button>
+          <div>
+            <button type="submit" id="save-article-btn" class="button primary">Save article</button>
+            <button type="button" id="cancel-edit-btn" class="button secondary hidden">Cancel edit</button>
+          </div>
         </form>
+      </section>
+
+      <section id="articles-panel" class="card hidden">
+        <h2>Your uploaded articles</h2>
+        <div id="admin-article-list" class="article-admin-list">
+          <p class="meta-text">Loading articles...</p>
+        </div>
       </section>
 
       <section id="login-panel" class="card">

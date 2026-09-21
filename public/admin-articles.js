@@ -7,6 +7,11 @@ const logoutBtn = document.getElementById('logout-btn');
 const formStatus = document.getElementById('form-status');
 const sessionPanel = document.getElementById('session-panel');
 const loginPanel = document.getElementById('login-panel');
+const articlesPanel = document.getElementById('articles-panel');
+const adminArticleList = document.getElementById('admin-article-list');
+const cancelEditBtn = document.getElementById('cancel-edit-btn');
+const saveArticleBtn = document.getElementById('save-article-btn');
+let editingArticleId = null;
 
 function setVisible(element, visible) {
   element.hidden = !visible;
@@ -35,18 +40,70 @@ function slugify(value) {
     .slice(0, 55) || 'article';
 }
 
+function resetArticleForm() {
+  editingArticleId = null;
+  articleForm.reset();
+  document.getElementById('article-pii').value = 'S1201-9712(26)00706-X';
+  document.getElementById('issue').value = 'S1201-9712(26)X2009-4';
+  saveArticleBtn.textContent = 'Save article';
+  setVisible(cancelEditBtn, false);
+}
+
+function startEditing(article) {
+  editingArticleId = article.id;
+  for (const [field, value] of Object.entries({
+    'article-title': article.title, 'article-pii': article.article_pii,
+    'article-authors': article.authors, 'article-type': article.article_type,
+    'article-section': article.section, 'order-number': article.order_number,
+    'page-number': article.page_number, volume: article.volume, issue: article.issue,
+    doi: article.doi, 'published-at': article.published_at,
+    'article-abstract': article.abstract, 'article-highlights': article.highlights,
+    'article-keywords': article.keywords
+  })) document.getElementById(field).value = value ?? '';
+  saveArticleBtn.textContent = 'Update article';
+  setVisible(cancelEditBtn, true);
+  document.getElementById('article-title').focus();
+}
+
+async function loadAdminArticles() {
+  const { data, error } = await supabase.from('articles').select('*').order('created_at', { ascending: false });
+  if (error) { adminArticleList.innerHTML = `<p class="status status-error">${escapeHtml(error.message)}</p>`; return; }
+  adminArticleList.innerHTML = '';
+  if (!data?.length) { adminArticleList.innerHTML = '<p class="meta-text">No uploaded articles yet.</p>'; return; }
+  for (const article of data) {
+    const item = document.createElement('article');
+    item.className = 'article-admin-item';
+    item.innerHTML = `<h3></h3><p class="article-admin-meta"></p><div class="article-admin-actions"><button type="button" class="button secondary edit-article">Edit</button><button type="button" class="button secondary delete-article">Delete</button></div>`;
+    item.querySelector('h3').textContent = article.title;
+    item.querySelector('.article-admin-meta').textContent = `${article.article_pii || 'No PII'} | Issue: ${article.issue || 'N/A'} | Order: ${article.order_number ?? 0} | Page: ${article.page_number || 'N/A'}`;
+    item.querySelector('.edit-article').addEventListener('click', () => startEditing(article));
+    item.querySelector('.delete-article').addEventListener('click', async () => {
+      if (!window.confirm(`Delete "${article.title}"?`)) return;
+      const { error: deleteError } = await supabase.from('articles').delete().eq('id', article.id);
+      if (deleteError) { showStatus(formStatus, deleteError.message, 'error'); return; }
+      if (article.pdf_path) await supabase.storage.from('article-pdfs').remove([article.pdf_path]);
+      if (editingArticleId === article.id) resetArticleForm();
+      showStatus(formStatus, 'Article deleted successfully.', 'success');
+      await loadAdminArticles();
+    });
+    adminArticleList.appendChild(item);
+  }
+}
+
 async function refreshSessionUi() {
   const { data: { session } } = await supabase.auth.getSession();
   const isLoggedIn = Boolean(session);
 
   setVisible(sessionPanel, isLoggedIn);
   setVisible(articleForm, isLoggedIn);
+  setVisible(articlesPanel, isLoggedIn);
   setVisible(loginPanel, !isLoggedIn);
   setVisible(logoutBtn, isLoggedIn);
 
   if (session) {
     authStatus.textContent = `Signed in as ${session.user.email}`;
     authStatus.className = 'status status-success';
+    await loadAdminArticles();
   } else {
     authStatus.textContent = 'Sign in to upload an article.';
     authStatus.className = 'status status-info';
@@ -115,30 +172,23 @@ articleForm.addEventListener('submit', async (event) => {
   const publishedAt = document.getElementById('published-at').value || null;
   const pdfFile = document.getElementById('pdf-file').files[0];
 
-  if (!title || !articlePii || !authors || !section || !pdfFile) {
-    showStatus(formStatus, 'Title, article PII, authors, section, and PDF are required.', 'error');
+  if (!title || !articlePii || !authors || !section || (!editingArticleId && !pdfFile)) {
+    showStatus(formStatus, 'Title, article PII, authors, section, and PDF are required for new articles.', 'error');
     return;
   }
 
-  const extension = pdfFile.name.split('.').pop() || 'pdf';
-  const safeFileName = `${Date.now()}-${slugify(title)}.${extension}`;
-
-  showStatus(formStatus, 'Uploading PDF to storage...', 'info');
-
-  const { error: uploadError } = await supabase.storage
-    .from('article-pdfs')
-    .upload(safeFileName, pdfFile, {
-      cacheControl: '3600',
-      upsert: false,
-      contentType: pdfFile.type || 'application/pdf'
+  let pdfPath = null;
+  if (pdfFile) {
+    const extension = pdfFile.name.split('.').pop() || 'pdf';
+    pdfPath = `${Date.now()}-${slugify(title)}.${extension}`;
+    showStatus(formStatus, 'Uploading PDF to storage...', 'info');
+    const { error: uploadError } = await supabase.storage.from('article-pdfs').upload(pdfPath, pdfFile, {
+      cacheControl: '3600', upsert: false, contentType: pdfFile.type || 'application/pdf'
     });
-
-  if (uploadError) {
-    showStatus(formStatus, uploadError.message, 'error');
-    return;
+    if (uploadError) { showStatus(formStatus, uploadError.message, 'error'); return; }
   }
 
-  const { data: row, error: insertError } = await supabase.from('articles').insert({
+  const articleValues = {
     title,
     article_pii: articlePii,
     authors,
@@ -152,10 +202,15 @@ articleForm.addEventListener('submit', async (event) => {
     volume,
     issue,
     doi,
-    pdf_path: safeFileName,
     published_at: publishedAt,
     created_by: session.user.id
-  }).select().single();
+  };
+  if (pdfPath) articleValues.pdf_path = pdfPath;
+  const result = editingArticleId
+    ? await supabase.from('articles').update(articleValues).eq('id', editingArticleId).select().single()
+    : await supabase.from('articles').insert({ ...articleValues, pdf_path: pdfPath }).select().single();
+  const row = result.data;
+  const insertError = result.error;
 
   if (insertError) {
     const message = insertError.message.includes('row-level security policy')
@@ -165,10 +220,13 @@ articleForm.addEventListener('submit', async (event) => {
     return;
   }
 
-  articleForm.reset();
-  showStatus(formStatus, `Article saved successfully: ${escapeHtml(row.title)}`, 'success');
-  await refreshSessionUi();
+  const wasEditing = Boolean(editingArticleId);
+  resetArticleForm();
+  showStatus(formStatus, `${wasEditing ? 'Article updated' : 'Article saved'} successfully: ${escapeHtml(row.title)}`, 'success');
+  await loadAdminArticles();
 });
+
+cancelEditBtn.addEventListener('click', resetArticleForm);
 
 refreshSessionUi();
 })();
