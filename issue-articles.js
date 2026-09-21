@@ -33,7 +33,7 @@
     titleLink.appendChild(titleAnchor);
     item.querySelector('.toc__item__authors').textContent = article.authors || 'Authors not provided';
     item.querySelector('.toc__item__date').textContent = article.published_at ? `Published online: ${new Date(article.published_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}` : '';
-    item.querySelector('.toc__item__pages').textContent = `Page ${article.page_number || 'N/A'} | Order ${article.order_number ?? 0}`;
+    item.querySelector('.toc__item__pages').textContent = '';
     item.querySelector('.toc__articleNumber').textContent = article.article_type || 'Article';
     const link = item.querySelector('.pdfLink');
     if (pdfUrl) link.href = pdfUrl;
