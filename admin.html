@@ -160,6 +160,11 @@
               <input id="article-title" name="title" type="text" required />
             </label>
             <label>
+              Article PII / ID
+              <input id="article-pii" name="article_pii" type="text" value="S1201-9712(26)00706-X" placeholder="S1201-9712(26)00706-X" required />
+              <small>Used to open the article preview page.</small>
+            </label>
+            <label>
               Authors
               <input id="article-authors" name="authors" type="text" required />
             </label>
@@ -208,6 +213,14 @@
             <label style="grid-column: 1 / -1;">
               Abstract
               <textarea id="article-abstract" name="abstract" placeholder="Paste article abstract here..."></textarea>
+            </label>
+            <label style="grid-column: 1 / -1;">
+              Highlights
+              <textarea id="article-highlights" name="highlights" placeholder="One highlight per line"></textarea>
+            </label>
+            <label style="grid-column: 1 / -1;">
+              Keywords
+              <input id="article-keywords" name="keywords" type="text" placeholder="influenza, RSV, infectious diseases" />
             </label>
           </div>
 

@@ -24,7 +24,13 @@
     const item = document.createElement('li');
     item.className = 'articleCitation';
     item.innerHTML = `<div class="toc__item clearfix"><div class="toc__item__prefix"><div class="input-group"><label class="checkbox--primary"><input type="checkbox" disabled><span class="label-txt"></span></label></div></div><div class="toc__item__body"><div class="row"><div class="toc__item__detials col-md-9 col-lg-10"><h3 class="toc__item__title"></h3><div class="toc__item__authors"></div><div class="toc__item__details"><div class="toc__item__pages"></div><div class="toc__articleNumber"></div></div><div class="toc__item__links"><ul class="rlist--inline download-links"><li><a class="pdfLink" target="_blank" rel="noreferrer">PDF</a></li></ul></div></div></div></div></div>`;
-    item.querySelector('.toc__item__title').textContent = article.title;
+    const titleLink = item.querySelector('.toc__item__title');
+    titleLink.textContent = article.title;
+    titleLink.innerHTML = '';
+    const titleAnchor = document.createElement('a');
+    titleAnchor.href = `../../article/${encodeURIComponent(article.article_pii || 'S1201-9712(26)00706-X')}/fulltext.html`;
+    titleAnchor.textContent = article.title;
+    titleLink.appendChild(titleAnchor);
     item.querySelector('.toc__item__authors').textContent = article.authors || 'Authors not provided';
     item.querySelector('.toc__item__pages').textContent = `Page ${article.page_number || 'N/A'} | Order ${article.order_number ?? 0}`;
     item.querySelector('.toc__articleNumber').textContent = article.article_type || 'Article';

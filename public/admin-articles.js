@@ -100,9 +100,12 @@ articleForm.addEventListener('submit', async (event) => {
   }
 
   const title = document.getElementById('article-title').value.trim();
+  const articlePii = document.getElementById('article-pii').value.trim();
   const authors = document.getElementById('article-authors').value.trim();
   const articleType = document.getElementById('article-type').value.trim();
   const abstract = document.getElementById('article-abstract').value.trim();
+  const highlights = document.getElementById('article-highlights').value.trim();
+  const keywords = document.getElementById('article-keywords').value.trim();
   const section = document.getElementById('article-section').value;
   const orderNumber = Number(document.getElementById('order-number').value || 0);
   const pageNumber = document.getElementById('page-number').value.trim();
@@ -112,8 +115,8 @@ articleForm.addEventListener('submit', async (event) => {
   const publishedAt = document.getElementById('published-at').value || null;
   const pdfFile = document.getElementById('pdf-file').files[0];
 
-  if (!title || !authors || !section || !pdfFile) {
-    showStatus(formStatus, 'Title, authors, section, and PDF are required.', 'error');
+  if (!title || !articlePii || !authors || !section || !pdfFile) {
+    showStatus(formStatus, 'Title, article PII, authors, section, and PDF are required.', 'error');
     return;
   }
 
@@ -137,9 +140,12 @@ articleForm.addEventListener('submit', async (event) => {
 
   const { data: row, error: insertError } = await supabase.from('articles').insert({
     title,
+    article_pii: articlePii,
     authors,
     article_type: articleType,
     abstract,
+    highlights,
+    keywords,
     section,
     order_number: orderNumber,
     page_number: pageNumber,

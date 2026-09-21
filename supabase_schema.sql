@@ -15,9 +15,12 @@ create table if not exists public.admin_users (
 create table if not exists public.articles (
   id uuid primary key default gen_random_uuid(),
   title text not null,
+  article_pii text unique,
   authors text,
   article_type text,
   abstract text,
+  highlights text,
+  keywords text,
   section text not null default 'inpress' check (section in ('inpress', 'inprogress', 'current', 'archive')),
   order_number integer not null default 0,
   page_number text,
@@ -30,6 +33,13 @@ create table if not exists public.articles (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.articles add column if not exists article_pii text;
+alter table public.articles add column if not exists highlights text;
+alter table public.articles add column if not exists keywords text;
+create unique index if not exists articles_article_pii_idx
+  on public.articles (article_pii)
+  where article_pii is not null;
 
 create index if not exists articles_section_order_idx
   on public.articles (section, order_number, published_at desc, created_at desc);
