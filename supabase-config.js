@@ -1,6 +1,6 @@
 window.SUPABASE_CONFIG = {
-  url: 'https://YOUR_PROJECT_REF.supabase.co',
-  anonKey: 'YOUR_SUPABASE_ANON_KEY'
+  url: 'https://kkoxfvrwpkmnlqgfxxlj.supabase.co',
+  anonKey: 'sb_publishable_RMZaNrHoo8_HiOe4Ftj0RA_EE7ZgAqT'
 };
 
 if (!window.supabase) {
