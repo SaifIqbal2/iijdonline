@@ -1,4 +1,5 @@
 (() => {
+  function init() {
   const supabase = window.supabaseClient;
   const parts = window.location.pathname.split('/').filter(Boolean);
   const articlePii = new URLSearchParams(window.location.search).get('pii') || decodeURIComponent(parts[1] || '');
@@ -59,4 +60,6 @@
       issueItems.appendChild(item);
     }
   });
+  }
+  window.addEventListener('load', init);
 })();
