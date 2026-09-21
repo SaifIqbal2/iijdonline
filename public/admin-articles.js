@@ -1,3 +1,4 @@
+(() => {
 const supabase = window.supabaseClient;
 const loginForm = document.getElementById('admin-login-form');
 const articleForm = document.getElementById('article-form');
@@ -155,3 +156,4 @@ articleForm.addEventListener('submit', async (event) => {
 });
 
 refreshSessionUi();
+})();
