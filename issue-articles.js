@@ -28,7 +28,7 @@
     titleLink.textContent = article.title;
     titleLink.innerHTML = '';
     const titleAnchor = document.createElement('a');
-    titleAnchor.href = `../../article/${encodeURIComponent(article.article_pii || 'S1201-9712(26)00706-X')}/fulltext.html`;
+    titleAnchor.href = `/article-preview.html?pii=${encodeURIComponent(article.article_pii || 'S1201-9712(26)00706-X')}`;
     titleAnchor.textContent = article.title;
     titleLink.appendChild(titleAnchor);
     item.querySelector('.toc__item__authors').textContent = article.authors || 'Authors not provided';

@@ -1,7 +1,7 @@
 (() => {
   const supabase = window.supabaseClient;
   const parts = window.location.pathname.split('/').filter(Boolean);
-  const articlePii = decodeURIComponent(parts[1] || '');
+  const articlePii = new URLSearchParams(window.location.search).get('pii') || decodeURIComponent(parts[1] || '');
   const root = document.getElementById('article-preview') || document.querySelector(`article[data-pii="${articlePii}"]`);
   if (!root || !supabase || !articlePii) return;
   const issueStyle = document.createElement('style');
