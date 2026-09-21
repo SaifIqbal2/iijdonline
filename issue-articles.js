@@ -6,21 +6,14 @@
   panel.id = 'supabase-issue-articles';
   panel.innerHTML = `
     <style>
-      #supabase-issue-articles { max-width: 1100px; margin: 28px auto; padding: 24px; background: #f4f7fb; border: 1px solid #dce5ef; font-family: Arial, sans-serif; }
-      #supabase-issue-articles h2 { margin: 0 0 8px; color: #164f73; }
-      #supabase-issue-articles .issue-meta { color: #5b6b7a; margin: 0 0 20px; }
-      #supabase-issue-articles .issue-article { background: #fff; border: 1px solid #dce5ef; padding: 16px; margin-top: 12px; }
-      #supabase-issue-articles .issue-article h3 { margin: 0 0 8px; color: #164f73; }
-      #supabase-issue-articles .issue-article p { margin: 6px 0; color: #425466; }
-      #supabase-issue-articles a { color: #12618d; font-weight: 700; }
       #supabase-issue-articles .issue-error { color: #b42318; font-weight: 700; }
     </style>
-    <h2>Articles for this issue</h2>
-    <p class="issue-meta">${issueId}</p>
     <div id="issue-article-results">Loading articles...</div>`;
 
-  document.body.insertBefore(panel, document.body.firstChild);
+  document.head.appendChild(panel.querySelector('style'));
   const results = panel.querySelector('#issue-article-results');
+  const originalHeading = document.getElementById('OriginalReports172');
+  const originalList = originalHeading?.nextElementSibling;
 
   function pageNumber(value) {
     const match = String(value || '').match(/\d+/);
@@ -28,23 +21,16 @@
   }
 
   function renderArticle(article, pdfUrl) {
-    const item = document.createElement('article');
-    item.className = 'issue-article';
-    const title = document.createElement('h3');
-    title.textContent = article.title;
-    const authors = document.createElement('p');
-    authors.textContent = article.authors || 'Authors not provided';
-    const details = document.createElement('p');
-    details.textContent = `Page: ${article.page_number || 'N/A'} | Order: ${article.order_number ?? 0}`;
-    item.append(title, authors, details);
-    if (pdfUrl) {
-      const link = document.createElement('a');
-      link.href = pdfUrl;
-      link.target = '_blank';
-      link.rel = 'noreferrer';
-      link.textContent = 'Open PDF';
-      item.appendChild(link);
-    }
+    const item = document.createElement('li');
+    item.className = 'articleCitation';
+    item.innerHTML = `<div class="toc__item clearfix"><div class="toc__item__prefix"><div class="input-group"><label class="checkbox--primary"><input type="checkbox" disabled><span class="label-txt"></span></label></div></div><div class="toc__item__body"><div class="row"><div class="toc__item__detials col-md-9 col-lg-10"><h3 class="toc__item__title"></h3><div class="toc__item__authors"></div><div class="toc__item__details"><div class="toc__item__pages"></div><div class="toc__articleNumber"></div></div><div class="toc__item__links"><ul class="rlist--inline download-links"><li><a class="pdfLink" target="_blank" rel="noreferrer">PDF</a></li></ul></div></div></div></div></div>`;
+    item.querySelector('.toc__item__title').textContent = article.title;
+    item.querySelector('.toc__item__authors').textContent = article.authors || 'Authors not provided';
+    item.querySelector('.toc__item__pages').textContent = `Page ${article.page_number || 'N/A'} | Order ${article.order_number ?? 0}`;
+    item.querySelector('.toc__articleNumber').textContent = article.article_type || 'Article';
+    const link = item.querySelector('.pdfLink');
+    if (pdfUrl) link.href = pdfUrl;
+    else { link.textContent = 'PDF unavailable'; link.removeAttribute('href'); }
     return item;
   }
 
@@ -67,7 +53,6 @@
       return;
     }
 
-    results.textContent = '';
     const articles = (data || []).sort((a, b) => {
       const orderDiff = Number(a.order_number || 0) - Number(b.order_number || 0);
       return orderDiff || pageNumber(a.page_number) - pageNumber(b.page_number);
@@ -77,14 +62,19 @@
       return;
     }
 
+    results.remove();
+    if (!originalList) return;
+    const fragment = document.createDocumentFragment();
+
     for (const article of articles) {
       let pdfUrl = '';
       if (article.pdf_path) {
         const signed = await supabase.storage.from('article-pdfs').createSignedUrl(article.pdf_path, 86400);
         pdfUrl = signed.data?.signedUrl || '';
       }
-      results.appendChild(renderArticle(article, pdfUrl));
+      fragment.appendChild(renderArticle(article, pdfUrl));
     }
+    originalList.prepend(fragment);
   }
 
   loadIssueArticles();
