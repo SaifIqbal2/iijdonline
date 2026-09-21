@@ -18,6 +18,9 @@ function copyLegacyAssets() {
         if (existsSync(source)) cpSync(source, resolve(outputDir, directory), { recursive: true });
       }
 
+      const issueDirectory = resolve(projectRoot, 'issue');
+      if (existsSync(issueDirectory)) cpSync(issueDirectory, resolve(outputDir, 'issue'), { recursive: true });
+
       for (const file of ['local-single-ad-guard.js']) {
         const source = resolve(projectRoot, file);
         if (existsSync(source)) cpSync(source, resolve(outputDir, file));
@@ -37,7 +40,8 @@ export default defineConfig({
         inpress: 'inpress.html',
         inprogress: 'inprogress.html',
         current: 'current.html',
-        issues: 'issues.html'
+        issues: 'issues.html',
+        targetIssue: 'issue/S1201-9712(26)X2009-4.html'
       }
     }
   },
