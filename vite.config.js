@@ -26,6 +26,12 @@ function copyLegacyAssets() {
                 if (existsSync(source))
                     cpSync(source, resolve(outputDir, directory), { recursive: true });
             }
+            var issueDirectory = resolve(projectRoot, 'issue');
+            if (existsSync(issueDirectory))
+                cpSync(issueDirectory, resolve(outputDir, 'issue'), { recursive: true });
+            var articleDirectory = resolve(projectRoot, 'article');
+            if (existsSync(articleDirectory))
+                cpSync(articleDirectory, resolve(outputDir, 'article'), { recursive: true });
             for (var _b = 0, _c = ['local-single-ad-guard.js']; _b < _c.length; _b++) {
                 var file = _c[_b];
                 var source = resolve(projectRoot, file);
@@ -42,7 +48,13 @@ export default defineConfig({
             input: {
                 home: 'index.html',
                 admin: 'admin.html',
-                articles: 'articles.html'
+                articles: 'articles.html',
+                inpress: 'inpress.html',
+                inprogress: 'inprogress.html',
+                current: 'current.html',
+                issues: 'issues.html',
+                targetIssue: 'issue/S1201-9712(26)X2009-4.html',
+                targetArticle: 'article/S1201-9712(26)00706-X/fulltext.html'
             }
         }
     },
