@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/article/:pii/fulltext",
+      "destination": "/article/:pii/fulltext.html"
+    }
+  ]
+}
