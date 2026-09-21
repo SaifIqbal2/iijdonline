@@ -6,6 +6,12 @@ const authStatus = document.getElementById('auth-status');
 const logoutBtn = document.getElementById('logout-btn');
 const formStatus = document.getElementById('form-status');
 const sessionPanel = document.getElementById('session-panel');
+const loginPanel = document.getElementById('login-panel');
+
+function setVisible(element, visible) {
+  element.hidden = !visible;
+  element.classList.toggle('hidden', !visible);
+}
 
 function showStatus(element, message, type = 'info') {
   element.textContent = message;
@@ -33,10 +39,10 @@ async function refreshSessionUi() {
   const { data: { session } } = await supabase.auth.getSession();
   const isLoggedIn = Boolean(session);
 
-  sessionPanel.hidden = !isLoggedIn;
-  articleForm.hidden = !isLoggedIn;
-  loginForm.hidden = isLoggedIn;
-  logoutBtn.hidden = !isLoggedIn;
+  setVisible(sessionPanel, isLoggedIn);
+  setVisible(articleForm, isLoggedIn);
+  setVisible(loginPanel, !isLoggedIn);
+  setVisible(logoutBtn, isLoggedIn);
 
   if (session) {
     authStatus.textContent = `Signed in as ${session.user.email}`;
