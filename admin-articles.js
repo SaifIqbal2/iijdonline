@@ -152,7 +152,10 @@ articleForm.addEventListener('submit', async (event) => {
   }).select().single();
 
   if (insertError) {
-    showStatus(formStatus, insertError.message, 'error');
+    const message = insertError.message.includes('row-level security policy')
+      ? 'This account is not an active admin. Run the admin activation SQL in Supabase, then sign in again.'
+      : insertError.message;
+    showStatus(formStatus, message, 'error');
     return;
   }
 

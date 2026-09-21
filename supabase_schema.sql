@@ -1,6 +1,8 @@
 -- Run this in Supabase SQL Editor.
--- After creating a user in Supabase Auth, promote that user's UUID:
--- update public.admin_users set is_active = true where user_id = 'YOUR-USER-UUID';
+-- After creating a user in Supabase Auth, activate it as an admin by email:
+-- insert into public.admin_users (user_id, is_active)
+-- select id, true from auth.users where email = 'admin@admin.com'
+-- on conflict (user_id) do update set is_active = true;
 
 create extension if not exists pgcrypto;
 
