@@ -44,7 +44,7 @@ function resetArticleForm() {
   editingArticleId = null;
   articleForm.reset();
   document.getElementById('article-pii').value = 'S1201-9712(26)00706-X';
-  document.getElementById('issue').value = 'S1201-9712(26)X2009-4';
+  document.getElementById('issue').value = '';
   saveArticleBtn.textContent = 'Save article';
   setVisible(cancelEditBtn, false);
 }

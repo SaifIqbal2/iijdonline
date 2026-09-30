@@ -182,6 +182,11 @@
         <h2>Article upload</h2>
         <form id="article-form">
           <div class="grid">
+            <div class="status status-info" style="grid-column: 1 / -1; margin-bottom: 0;">
+              <strong>How to show articles on an Issue Page:</strong><br>
+              1. <b>Issue ID:</b> Must exactly match the ID in the URL. (e.g., if URL is <code>/issue/S1201-9712(26)X2006-9.html</code>, the Issue ID is <code>S1201-9712(26)X2006-9</code>)<br>
+              2. <b>Article type:</b> Type the exact section name where it should appear (e.g., <code>Editorials</code>, <code>Original Reports</code>, <code>Reviews</code>, <code>Perspectives</code>).
+            </div>
             <label>
               Article title
               <input id="article-title" name="title" type="text" required />
@@ -196,8 +201,8 @@
               <input id="article-authors" name="authors" type="text" required />
             </label>
             <label>
-              Article type
-              <input id="article-type" name="article_type" type="text" placeholder="Original Report" />
+              Article type (Section heading)
+              <input id="article-type" name="article_type" type="text" placeholder="e.g. Original Reports, Editorials" required />
             </label>
             <label>
               Section
@@ -222,8 +227,8 @@
             </label>
             <label>
               Issue ID
-              <input id="issue" name="issue" type="text" value="S1201-9712(26)X2009-4" placeholder="S1201-9712(26)X2009-4" required />
-              <small>Use the exact issue ID to show this article on that issue page.</small>
+              <input id="issue" name="issue" type="text" placeholder="e.g. S1201-9712(26)X2006-9" required />
+              <small>Must match the issue page URL exactly!</small>
             </label>
             <label>
               DOI
