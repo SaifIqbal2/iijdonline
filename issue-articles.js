@@ -1,6 +1,8 @@
 (() => {
   function init() {
-  const issueId = 'S1201-9712(26)X2009-4';
+  // Extract issueId from URL, fallback to default if not found
+  const match = window.location.pathname.match(/\/issue\/([^\.]+)/);
+  const issueId = match ? match[1] : 'S1201-9712(26)X2009-4';
   const supabase = window.supabaseClient;
   const panel = document.createElement('section');
   panel.id = 'supabase-issue-articles';
@@ -12,8 +14,17 @@
 
   document.head.appendChild(panel.querySelector('style'));
   const results = panel.querySelector('#issue-article-results');
-  const originalHeading = document.getElementById('OriginalReports172');
-  const originalList = originalHeading?.nextElementSibling;
+  let originalHeading = document.querySelector('h2.toc__heading__header');
+  let originalList = originalHeading ? originalHeading.nextElementSibling : null;
+  
+  if (!originalList) {
+    const tocBody = document.querySelector('.table-of-content__body');
+    if (tocBody) {
+      originalList = document.createElement('ul');
+      originalList.className = 'toc__body rlist clearfix';
+      tocBody.prepend(originalList);
+    }
+  }
 
   function pageNumber(value) {
     const match = String(value || '').match(/\d+/);
