@@ -1,12 +1,12 @@
 @font-face {
   font-family: "Helvetica Neue Regular";
   src: url("https://assets.crossref.org/private/fonts/903190/706ec8e5-fe4a-4518-91a6-7aba4d3d333f.eot?#iefix");
-  src: url("https://assets.crossref.org/private/fonts/903190/706ec8e5-fe4a-4518-91a6-7aba4d3d333f.eot?#iefix") format("eot"), url("https://assets.crossref.org/private/fonts/903190/dc50c02f-3f77-4e75-b89c-e3f9bb4752e6.woff2") format("woff2"), url("https://assets.crossref.org/private/fonts/903190/ce6f5b38-1cb5-4a27-8182-583aa68b2436.woff") format("woff"), url("https://assets.crossref.org/private/fonts/903190/ff06cde7-e06a-4cf0-af4d-5b2f737bf544.ttf") format("truetype"), url("https://assets.crossref.org/private/fonts/903190/958b12cf-2908-4254-8cb9-9b12c3aa151e.svg#958b12cf-2908-4254-8cb9-9b12c3aa151e") format("svg");
+  src: url("https://assets.crossref.org/private/fonts/903190/706ec8e5-fe4a-4518-91a6-7aba4d3d333f.eot?#iefix") format("eot"), url("https://assets.crossref.org/private/fonts/903190/dc50c02f-3f77-4e75-b89c-e3f9bb4752e6.woff2?v=2") format("woff2"), url("https://assets.crossref.org/private/fonts/903190/ce6f5b38-1cb5-4a27-8182-583aa68b2436.woff?v=2") format("woff"), url("https://assets.crossref.org/private/fonts/903190/ff06cde7-e06a-4cf0-af4d-5b2f737bf544.ttf?v=2") format("truetype"), url("https://assets.crossref.org/private/fonts/903190/958b12cf-2908-4254-8cb9-9b12c3aa151e.svg#958b12cf-2908-4254-8cb9-9b12c3aa151e") format("svg");
 }
 @font-face {
   font-family: "Helvetica Neue Bold";
   src: url("https://assets.crossref.org/private/fonts/903202/a95d2895-fa71-4ce7-bc1e-631169924be3.eot?#iefix");
-  src: url("https://assets.crossref.org/private/fonts/903202/a95d2895-fa71-4ce7-bc1e-631169924be3.eot?#iefix") format("eot"), url("https://assets.crossref.org/private/fonts/903202/6dfa3ef5-ebc5-4d23-a631-b3d746c2ad39.woff2") format("woff2"), url("https://assets.crossref.org/private/fonts/903202/588c9ba8-1d28-4ad6-bf18-7128152d84c4.woff") format("woff"), url("https://assets.crossref.org/private/fonts/903202/55334dfb-9c72-4147-8de0-21239f17ff25.ttf") format("truetype"), url("https://assets.crossref.org/private/fonts/903202/62455047-c81f-44f1-8938-7739fa0f0e8d.svg#62455047-c81f-44f1-8938-7739fa0f0e8d") format("svg");
+  src: url("https://assets.crossref.org/private/fonts/903202/a95d2895-fa71-4ce7-bc1e-631169924be3.eot?#iefix") format("eot"), url("https://assets.crossref.org/private/fonts/903202/6dfa3ef5-ebc5-4d23-a631-b3d746c2ad39.woff2?v=2") format("woff2"), url("https://assets.crossref.org/private/fonts/903202/588c9ba8-1d28-4ad6-bf18-7128152d84c4.woff?v=2") format("woff"), url("https://assets.crossref.org/private/fonts/903202/55334dfb-9c72-4147-8de0-21239f17ff25.ttf?v=2") format("truetype"), url("https://assets.crossref.org/private/fonts/903202/62455047-c81f-44f1-8938-7739fa0f0e8d.svg#62455047-c81f-44f1-8938-7739fa0f0e8d") format("svg");
 }
 * {
   box-sizing: border-box;
