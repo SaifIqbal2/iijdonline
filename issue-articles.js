@@ -1,9 +1,12 @@
 (() => {
   function init() {
   // Extract issueId from URL, fallback to default if not found
-  const match = window.location.pathname.match(/\/issue\/([^\.]+)/);
-  const issueId = match ? match[1] : 'S1201-9712(26)X2009-4';
+  const pathMatch = window.location.pathname.match(/\/issue\/([^\.]+)/);
+  const issueId = pathMatch ? pathMatch[1] : 'S1201-9712(26)X2009-4';
   const supabase = window.supabaseClient;
+  console.log('[issue-articles] pathname:', window.location.pathname);
+  console.log('[issue-articles] issueId:', issueId);
+  console.log('[issue-articles] supabaseClient:', supabase ? 'LOADED' : 'NOT LOADED');
   const panel = document.createElement('section');
   panel.id = 'supabase-issue-articles';
   panel.innerHTML = `
@@ -54,18 +57,23 @@
 
   async function loadIssueArticles() {
     if (!supabase) {
+      console.error('[issue-articles] Supabase not configured!');
       results.textContent = 'Supabase is not configured.';
       results.className = 'issue-error';
       return;
     }
 
+    console.log('[issue-articles] Querying Supabase for issue:', issueId);
     const { data, error } = await supabase
       .from('articles')
       .select('*')
       .eq('issue', issueId)
       .order('order_number', { ascending: true });
 
+    console.log('[issue-articles] Query result - data:', data, 'error:', error);
+
     if (error) {
+      console.error('[issue-articles] Query error:', error.message);
       results.textContent = error.message;
       results.className = 'issue-error';
       return;
@@ -75,13 +83,21 @@
       const orderDiff = Number(a.order_number || 0) - Number(b.order_number || 0);
       return orderDiff || pageNumber(a.page_number) - pageNumber(b.page_number);
     });
+    console.log('[issue-articles] Found', articles.length, 'articles for issueId:', issueId);
     if (!articles.length) {
-      results.textContent = 'No Supabase articles have been uploaded for this issue yet.';
+      console.warn('[issue-articles] No articles found for issue:', issueId);
+      results.textContent = 'No articles uploaded for issue: ' + issueId;
+      // Show in page for debugging
+      const tocBody = document.querySelector('.table-of-content__body');
+      if (tocBody) tocBody.prepend(results);
       return;
     }
 
     results.remove();
-    if (!originalList) return;
+    if (!originalList) {
+      console.error('[issue-articles] originalList not found in DOM!');
+      return;
+    }
     const fragment = document.createDocumentFragment();
 
     for (const article of articles) {
