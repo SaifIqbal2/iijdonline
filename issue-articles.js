@@ -112,10 +112,6 @@
     }
   }
 
-  // Run after page fully loads
-  if (document.readyState === 'complete') {
-    init();
-  } else {
-    window.addEventListener('load', init);
-  }
+  // Run immediately since script is at end of body
+  init();
 })();
